@@ -20,7 +20,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Neo Sans Std", sans-serif;
-  color: #ffffff; /* Texte lisible sur fond sombre */
+  color: #ffffff;
 }
 
 
@@ -28,11 +28,20 @@ body {
 /*     CENTRAGE DU CONTENU   */
 /* ========================= */
 
-h1, h2, p, .qcm-question {
+h1, h2, .qcm-question {
   text-align: center;
   max-width: 900px;
   margin-left: auto;
   margin-right: auto;
+}
+
+
+/* Centrer le texte  
+   (les A, B, C, D, etc. dans les <p>) */
+.qcm-question p {
+  text-align: center !important;
+  width: 100%;
+  margin: 0 auto;
 }
 
 
@@ -41,7 +50,7 @@ h1, h2, p, .qcm-question {
 /* ========================= */
 
 .qcm-question {
-  background: rgba(0, 0, 0, 0.55);  /* Transparence classe */
+  background: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(6px);
   padding: 20px;
   margin: 25px auto;
@@ -66,15 +75,6 @@ h1, h2, p, .qcm-question {
   margin-right: auto;
 }
 
-/* Centrer tout le contenu de chaque question */
-.qcm-question {
-  text-align: center !important;
-}
-
-/* Centrer le texte des options A B C D */
-.qcm-question p {
-  text-align: center !important;
-}
 
 
 
@@ -243,6 +243,7 @@ h1, h2, p, .qcm-question {
   max-height: none !important;
   will-change: opacity, transform;
 }
+
 
 
 
