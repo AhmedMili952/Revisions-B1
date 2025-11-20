@@ -293,3 +293,56 @@ h1, h2 {
     box-shadow: 0 0 10px rgba(0,255,120,0.55);
   }
 }
+
+/* ===========================================================
+   STYLE DES OPTIONS A/B/C/D — VERSION BOUTONS ARRONDIS MODERNES
+   Compatible 100% avec ton thème néon + animations
+   =========================================================== */
+
+.qcm-options {
+  margin-top: 18px;
+}
+
+.qcm-options label {
+  display: block;
+  background: rgba(20,20,20,0.85);
+  padding: 14px 20px;
+  border-radius: 14px;
+  margin: 10px auto;
+  max-width: 640px;
+  text-align: left;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.08);
+
+  font-size: 1rem;
+  line-height: 1.4;
+
+  transition:
+    background 0.25s ease,
+    transform 0.2s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+/* Style du bouton radio */
+.qcm-options input[type="radio"] {
+  margin-right: 10px;
+  transform: scale(1.25);
+}
+
+/* Effet hover néon */
+.qcm-options label:hover {
+  background: rgba(35,35,35,0.95);
+  transform: translateY(-2px);
+  border-color: #00aaffaa;
+  box-shadow: 0 0 15px #00aaff66;
+}
+
+/* Option sélectionnée */
+.qcm-options input[type="radio"]:checked + label,
+.qcm-options label:has(input[type="radio"]:checked) {
+  background: rgba(0,110,255,0.85);
+  border-color: #00c3ff;
+  box-shadow: 0 0 18px #009dff99;
+  color: white;
+}
