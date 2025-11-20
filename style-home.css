@@ -88,3 +88,11 @@ h1 {
         font-size: 2rem;
     }
 }
+
+/* Forcer le texte des explications en noir */
+.correction-panel,
+.correction-panel p,
+.correction-panel b,
+.correction-panel span {
+  color: #111 !important;
+}
