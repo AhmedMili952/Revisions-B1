@@ -1,0 +1,90 @@
+/* ==================================== */
+/*       PAGE D’ACCUEIL — GLASS UI       */
+/* ==================================== */
+
+body {
+    margin: 0;
+    font-family: "Neo Sans Std", sans-serif;
+    background: url("MontagneNuit.jpg") no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+    text-align: center;
+}
+
+/* Titre principal */
+h1 {
+    margin-top: 60px;
+    font-size: 2.5rem;
+    text-shadow: 0 0 10px rgba(0,0,0,0.6);
+}
+
+.subtitle {
+    margin-top: 10px;
+    font-size: 1.2rem;
+    opacity: 0.85;
+}
+
+/* =============================== */
+/*          CONTAINER CARDS        */
+/* =============================== */
+
+.cards-container {
+    margin: 60px auto;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 22px;
+    max-width: 900px;
+}
+
+/* =============================== */
+/*           GLASS CARDS           */
+/* =============================== */
+
+.glass-card {
+    width: 260px;
+    padding: 25px;
+    border-radius: 18px;
+    text-decoration: none;
+    color: white;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Animation hover */
+.glass-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.55);
+}
+
+/* Titre des cartes */
+.glass-card h2 {
+    margin-bottom: 8px;
+    font-size: 1.4rem;
+}
+
+/* Description */
+.glass-card p {
+    margin: 0;
+    opacity: 0.85;
+    font-size: 0.95rem;
+}
+
+/* =============================== */
+/*   RESPONSIVE – MOBILE OPTIMISÉ */
+/* =============================== */
+
+@media (max-width: 600px) {
+    .glass-card {
+        width: 80%;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+}
