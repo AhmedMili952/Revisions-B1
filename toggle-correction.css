@@ -1,189 +1,213 @@
-/* ===========================================================
-   UI FINALE — GESTION DE PROJET
-   ▸ Sidebar glassmorphism
-   ▸ Boutons néon
-   ▸ Réponses colorées après validation
-   ▸ Explications masquées avant validation
-   =========================================================== */
-
-/* =============== */
-/*  GLOBAL STYLE   */
-/* =============== */
-
+/* ================================
+   FOND GLOBAL
+================================ */
 body {
-    background: url("MontagneNuit.jpg") center/cover fixed no-repeat;
+    background: url("MontagneNuit.jpg") no-repeat center center fixed;
+    background-size: cover;
     margin: 0;
-    padding: 0;
     font-family: "Neo Sans Std", sans-serif;
     color: #fff;
 }
 
-/* Empêche le texte de coller au bord */
-.main-content {
-    margin-left: 260px;
-    padding: 40px 30px;
+/* ================================
+   LAYOUT GENERAL
+================================ */
+.layout {
+    display: flex;
 }
 
-/* ============================ */
-/*       SIDE BAR GAUCHE        */
-/* ============================ */
-
+/* ================================
+   SIDEBAR (gauche)
+================================ */
 .sidebar {
     position: fixed;
-    top: 0;
     left: 0;
-    width: 240px;
+    top: 0;
     height: 100%;
-    padding: 20px 10px;
-    background: rgba(0,0,0,0.35);
+    width: 230px;
+
+    background: rgba(0, 0, 0, 0.55);
     backdrop-filter: blur(10px);
-    box-shadow: 3px 0 12px rgba(0,0,0,0.4);
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
 
-.score-box {
-    background: rgba(0,0,0,0.65);
-    padding: 12px;
-    text-align: center;
-    border-radius: 12px;
-    font-weight: 700;
-    box-shadow: 0 0 12px rgba(0,200,255,0.6);
-}
+    padding: 20px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
 
-.toggle-all-btn {
-    border: none;
-    padding: 10px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    background: linear-gradient(135deg, #00c6ff, #007bff);
-    color: #fff;
-    box-shadow: 0 0 12px rgba(0,150,255,0.7);
-}
-
-.question-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
     overflow-y: auto;
-    padding-right: 6px;
+    z-index: 999;
 }
 
-.question-nav a {
-    text-decoration: none;
-    background: rgba(255,255,255,0.1);
-    padding: 8px;
+.sidebar-title {
+    font-weight: bold;
+    font-size: 22px;
     text-align: center;
-    border-radius: 6px;
+    margin-bottom: 15px;
+    text-shadow: 0 0 10px rgba(0,150,255,0.7);
+}
+
+/* Score */
+.score-result {
+    background: rgba(0,0,0,0.65);
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0,150,255,0.6);
+}
+
+/* Bouton "Afficher toutes les explications" */
+.toggle-explanations-btn {
+    width: 100%;
+    padding: 10px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+
+    background: linear-gradient(135deg, #0094FF, #00C3FF);
+    color: #fff;
+
+    box-shadow: 0 0 15px rgba(0,180,255,0.6);
+    transition: 0.3s;
+}
+
+.toggle-explanations-btn:hover {
+    transform: translateY(-3px);
+}
+
+/* Liste des Q1-Q30 */
+.sidebar-list button {
+    width: 100%;
+    padding: 8px 0;
+    margin: 5px 0;
+
+    background: rgba(255,255,255,0.1);
+    border: none;
+    border-radius: 8px;
+
+    cursor: pointer;
     color: #fff;
     font-weight: 600;
-    transition: background 0.2s ease, transform 0.2s ease;
+
+    transition: 0.3s;
 }
 
-.question-nav a:hover {
-    background: rgba(255,255,255,0.25);
-    transform: scale(1.03);
+.sidebar-list button.selected {
+    background: rgba(0,200,255,0.4);
+    box-shadow: 0 0 10px rgba(0,200,255,0.8);
 }
 
-/* ============================ */
-/*        QUESTIONS QCM         */
-/* ============================ */
+/* ================================
+   BOUTON BURGER (mobile)
+================================ */
+.sidebar-toggle {
+    display: none;
+}
 
+/* ================================
+   CONTENU (droite)
+================================ */
+.main-content {
+    margin-left: 260px;
+    padding: 30px 40px;
+}
+
+h1 {
+    text-align: center;
+    text-shadow: 0 0 12px rgba(180,220,255,0.7);
+}
+
+/* ================================
+   QUESTIONS
+================================ */
 .qcm-question {
-    background: rgba(0,0,0,0.55);
-    backdrop-filter: blur(10px);
-    padding: 25px;
-    border-radius: 18px;
-    margin-bottom: 45px;
-    max-width: 850px;
-    box-shadow: 0 0 16px rgba(0,0,0,0.45);
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(6px);
+
+    padding: 20px;
+    border-radius: 20px;
+
+    margin: 30px auto;
+    max-width: 800px;
+
+    box-shadow: 0 0 15px rgba(0,0,0,0.4);
 }
 
 /* Options */
 .qcm-options label {
     display: block;
-    padding: 10px 14px;
-    background: rgba(0,0,0,0.45);
-    border-radius: 10px;
-    margin: 6px 0;
+    margin: 8px 0;
     cursor: pointer;
-    transition: background 0.25s ease;
 }
 
-.qcm-options input {
-    margin-right: 10px;
+.qcm-options input:disabled {
+    cursor: not-allowed;
 }
 
-/* Bonne réponse après validation */
-.correct {
-    background: rgba(0,255,100,0.35) !important;
-    box-shadow: 0 0 10px rgba(0,255,100,0.7);
-}
-
-/* Mauvaise réponse */
-.wrong {
-    background: rgba(255,40,40,0.35) !important;
-    box-shadow: 0 0 10px rgba(255,40,40,0.7);
-}
-
-/* Option cochée mais correcte */
-.selected-correct {
-    background: rgba(0,130,255,0.4) !important;
-}
-
-/* ============================ */
-/*      EXPLICATION PANELS      */
-/* ============================ */
-
-.explanation {
+/* ================================
+   PANNEAU EXPLICATION
+================================ */
+.correction-panel {
     background: rgba(255,255,255,0.9);
     color: #111;
-    padding: 18px;
+    padding: 15px;
+
     border-radius: 12px;
-    margin-top: 15px;
-    box-shadow: 0 0 14px rgba(255,255,255,0.4);
+    margin-top: 10px;
+
     display: none;
+
+    box-shadow: 0 0 12px rgba(255,255,255,0.6);
 }
 
-.hidden {
-    display: none !important;
+.correction-panel.visible {
+    display: block;
+    animation: fadeIn 0.3s ease;
 }
 
-/* ============================ */
-/*     BOUTONS VALIDATION       */
-/* ============================ */
-
-.qcm-actions {
-    margin-top: 40px;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
+/* Boutons explication */
+.correction summary {
+    cursor: pointer;
+    user-select: none;
+}
+
+.btn-ferme, .btn-ouvert {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-weight: bold;
+
+    background: linear-gradient(135deg, #0094FF, #00C3FF);
+    box-shadow: 0 0 14px rgba(0,180,255,0.7);
+}
+
+/* ================================
+   VALIDATION / RESET
+================================ */
 .validate-btn, .reset-btn {
     border: none;
     border-radius: 30px;
-    padding: 14px 28px;
-    font-size: 1rem;
+    padding: 12px 22px;
+    margin: 20px 10px;
+    font-size: 16px;
     cursor: pointer;
-    font-weight: 700;
-    transition: transform 0.2s ease;
+    font-weight: bold;
+    transition: 0.3s;
 }
 
 .validate-btn {
     background: linear-gradient(135deg, #00ff6a, #00c853);
-    color: white;
-    box-shadow: 0 0 14px rgba(0,255,120,0.6);
+    color: #111;
+    box-shadow: 0 0 14px rgba(0,255,150,0.6);
 }
 
 .reset-btn {
     background: linear-gradient(135deg, #ff6b6b, #ff8787);
     color: white;
-    box-shadow: 0 0 14px rgba(255,110,110,0.6);
-}
-
-.validate-btn:hover, .reset-btn:hover {
-    transform: scale(1.05);
+    box-shadow: 0 0 14px rgba(255,80,80,0.6);
 }
