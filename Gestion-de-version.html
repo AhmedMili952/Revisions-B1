@@ -4,11 +4,43 @@
 <meta charset="UTF-8">
 <title>QCM XTI103 – Git & GitHub</title>
 <style>
-body { font-family: Arial, sans-serif; background:#1e2533; color:#fff; padding:20px; }
-h1 { color:#7aa2ff; }
-.question { margin-bottom:20px; padding:15px; background:#2a3245; border-radius:8px; }
-button { padding:10px 15px; font-size:16px; margin-top:20px; }
-.result { font-size:20px; margin-top:20px; }
+body {
+  font-family: Arial, sans-serif;
+  background: #1e2533;
+  color: #ffffff;
+  padding: 20px;
+}
+h1 {
+  color: #7aa2ff;
+}
+.question {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #2a3245;
+  border-radius: 8px;
+}
+.explanation {
+  display: none;
+  margin-top: 10px;
+  padding: 10px;
+  background: #1f293b;
+  border-left: 4px solid #7aa2ff;
+}
+.correct {
+  color: #4ade80;
+}
+.incorrect {
+  color: #f87171;
+}
+button {
+  padding: 10px 16px;
+  font-size: 16px;
+  margin-top: 20px;
+}
+.result {
+  font-size: 20px;
+  margin-top: 20px;
+}
 </style>
 </head>
 
@@ -24,6 +56,11 @@ button { padding:10px 15px; font-size:16px; margin-top:20px; }
 <input type="radio" name="q1" value="1"> git branch dev<br>
 <input type="radio" name="q1" value="0"> git merge dev<br>
 <input type="radio" name="q1" value="0"> git pull dev
+
+<div class="explanation">
+<strong>Bonne réponse :</strong> <span class="correct">git branch dev</span><br><br>
+Cette commande crée une nouvelle branche nommée <code>dev</code> sans changer de branche.
+</div>
 </div>
 
 <div class="question">
@@ -32,6 +69,11 @@ button { padding:10px 15px; font-size:16px; margin-top:20px; }
 <input type="radio" name="q2" value="1"> Une ligne de développement indépendante<br>
 <input type="radio" name="q2" value="0"> Un simple dossier<br>
 <input type="radio" name="q2" value="0"> Un commit spécial
+
+<div class="explanation">
+<strong>Bonne réponse :</strong> <span class="correct">Une ligne de développement indépendante</span><br><br>
+Une branche permet de travailler sur une fonctionnalité sans impacter la branche principale.
+</div>
 </div>
 
 <div class="question">
@@ -40,6 +82,11 @@ button { padding:10px 15px; font-size:16px; margin-top:20px; }
 <input type="radio" name="q3" value="1"> Une sauvegarde de l’état du projet<br>
 <input type="radio" name="q3" value="0"> Une branche distante<br>
 <input type="radio" name="q3" value="0"> Un dépôt GitHub
+
+<div class="explanation">
+<strong>Bonne réponse :</strong> <span class="correct">Une sauvegarde de l’état du projet</span><br><br>
+Un commit est un instantané du projet à un moment donné, stocké dans l’historique Git.
+</div>
 </div>
 
 <div class="question">
@@ -48,6 +95,11 @@ button { padding:10px 15px; font-size:16px; margin-top:20px; }
 <input type="radio" name="q4" value="1"> Intègre une branche dans une autre<br>
 <input type="radio" name="q4" value="0"> Renomme une branche<br>
 <input type="radio" name="q4" value="0"> Annule un commit
+
+<div class="explanation">
+<strong>Bonne réponse :</strong> <span class="correct">Intègre une branche dans une autre</span><br><br>
+La fusion permet de combiner les modifications d’une branche source dans la branche courante.
+</div>
 </div>
 
 <div class="question">
@@ -56,9 +108,15 @@ button { padding:10px 15px; font-size:16px; margin-top:20px; }
 <input type="radio" name="q5" value="1"> Le commit parent du prochain commit<br>
 <input type="radio" name="q5" value="0"> Le dépôt distant<br>
 <input type="radio" name="q5" value="0"> Un tag GitHub
+
+<div class="explanation">
+<strong>Bonne réponse :</strong> <span class="correct">Le commit parent du prochain commit</span><br><br>
+HEAD pointe vers le commit actuel, généralement le dernier de la branche active.
+</div>
 </div>
 
 <button type="button" onclick="corriger()">Corriger</button>
+
 </form>
 
 <div class="result" id="resultat"></div>
@@ -69,8 +127,13 @@ function corriger() {
   document.querySelectorAll('input[type=radio]:checked').forEach(r => {
     score += Number(r.value);
   });
+
   document.getElementById("resultat").innerHTML =
-    "Score : " + score + " / 5";
+    "Score final : " + score + " / 5";
+
+  document.querySelectorAll('.explanation').forEach(e => {
+    e.style.display = "block";
+  });
 }
 </script>
 
