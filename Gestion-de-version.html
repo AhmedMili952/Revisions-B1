@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>QCM XTI103 – Git & GitHub</title>
+
 <style>
 body {
   font-family: Arial, sans-serif;
@@ -21,25 +22,28 @@ h1 {
 }
 .explanation {
   display: none;
-  margin-top: 10px;
+  margin-top: 12px;
   padding: 10px;
   background: #1f293b;
   border-left: 4px solid #7aa2ff;
 }
 .correct {
   color: #4ade80;
-}
-.incorrect {
-  color: #f87171;
+  font-weight: bold;
 }
 button {
-  padding: 10px 16px;
+  padding: 10px 18px;
   font-size: 16px;
   margin-top: 20px;
+  cursor: pointer;
+}
+#restartBtn {
+  display: none;
 }
 .result {
   font-size: 20px;
   margin-top: 20px;
+  font-weight: bold;
 }
 </style>
 </head>
@@ -58,8 +62,8 @@ button {
 <input type="radio" name="q1" value="0"> git pull dev
 
 <div class="explanation">
-<strong>Bonne réponse :</strong> <span class="correct">git branch dev</span><br><br>
-Cette commande crée une nouvelle branche nommée <code>dev</code> sans changer de branche.
+Bonne réponse : <span class="correct">git branch dev</span><br><br>
+Cette commande crée une nouvelle branche nommée <code>dev</code> sans changer de branche active.
 </div>
 </div>
 
@@ -71,8 +75,8 @@ Cette commande crée une nouvelle branche nommée <code>dev</code> sans changer 
 <input type="radio" name="q2" value="0"> Un commit spécial
 
 <div class="explanation">
-<strong>Bonne réponse :</strong> <span class="correct">Une ligne de développement indépendante</span><br><br>
-Une branche permet de travailler sur une fonctionnalité sans impacter la branche principale.
+Bonne réponse : <span class="correct">Une ligne de développement indépendante</span><br><br>
+Les branches permettent de travailler sur des fonctionnalités sans impacter la branche principale.
 </div>
 </div>
 
@@ -84,8 +88,8 @@ Une branche permet de travailler sur une fonctionnalité sans impacter la branch
 <input type="radio" name="q3" value="0"> Un dépôt GitHub
 
 <div class="explanation">
-<strong>Bonne réponse :</strong> <span class="correct">Une sauvegarde de l’état du projet</span><br><br>
-Un commit est un instantané du projet à un moment donné, stocké dans l’historique Git.
+Bonne réponse : <span class="correct">Une sauvegarde de l’état du projet</span><br><br>
+Un commit correspond à un instantané du projet stocké dans l’historique Git.
 </div>
 </div>
 
@@ -97,8 +101,8 @@ Un commit est un instantané du projet à un moment donné, stocké dans l’his
 <input type="radio" name="q4" value="0"> Annule un commit
 
 <div class="explanation">
-<strong>Bonne réponse :</strong> <span class="correct">Intègre une branche dans une autre</span><br><br>
-La fusion permet de combiner les modifications d’une branche source dans la branche courante.
+Bonne réponse : <span class="correct">Intègre une branche dans une autre</span><br><br>
+La fusion combine les modifications d’une branche source dans la branche courante.
 </div>
 </div>
 
@@ -110,12 +114,13 @@ La fusion permet de combiner les modifications d’une branche source dans la br
 <input type="radio" name="q5" value="0"> Un tag GitHub
 
 <div class="explanation">
-<strong>Bonne réponse :</strong> <span class="correct">Le commit parent du prochain commit</span><br><br>
-HEAD pointe vers le commit actuel, généralement le dernier de la branche active.
+Bonne réponse : <span class="correct">Le commit parent du prochain commit</span><br><br>
+HEAD pointe vers le commit courant, généralement le dernier de la branche active.
 </div>
 </div>
 
-<button type="button" onclick="corriger()">Corriger</button>
+<button type="button" id="correctBtn" onclick="corriger()">Corriger</button>
+<button type="button" id="restartBtn" onclick="recommencer()">Recommencer</button>
 
 </form>
 
@@ -128,12 +133,27 @@ function corriger() {
     score += Number(r.value);
   });
 
-  document.getElementById("resultat").innerHTML =
+  document.getElementById("resultat").innerText =
     "Score final : " + score + " / 5";
 
   document.querySelectorAll('.explanation').forEach(e => {
     e.style.display = "block";
   });
+
+  document.getElementById("correctBtn").style.display = "none";
+  document.getElementById("restartBtn").style.display = "inline-block";
+}
+
+function recommencer() {
+  document.getElementById("quiz").reset();
+  document.getElementById("resultat").innerText = "";
+
+  document.querySelectorAll('.explanation').forEach(e => {
+    e.style.display = "none";
+  });
+
+  document.getElementById("restartBtn").style.display = "none";
+  document.getElementById("correctBtn").style.display = "inline-block";
 }
 </script>
 
