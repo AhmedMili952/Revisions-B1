@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>QCM XTI103 – Git & GitHub</title>
+<style>
+body { font-family: Arial, sans-serif; background:#1e2533; color:#fff; padding:20px; }
+h1 { color:#7aa2ff; }
+.question { margin-bottom:20px; padding:15px; background:#2a3245; border-radius:8px; }
+button { padding:10px 15px; font-size:16px; margin-top:20px; }
+.result { font-size:20px; margin-top:20px; }
+</style>
+</head>
+
+<body>
+
+<h1>QCM XTI103 – Git & GitHub</h1>
+
+<form id="quiz">
+
+<div class="question">
+<p>1. Quelle commande permet de créer une branche dev ?</p>
+<input type="radio" name="q1" value="0"> git switch dev<br>
+<input type="radio" name="q1" value="1"> git branch dev<br>
+<input type="radio" name="q1" value="0"> git merge dev<br>
+<input type="radio" name="q1" value="0"> git pull dev
+</div>
+
+<div class="question">
+<p>2. Qu’est-ce qu’une branche Git ?</p>
+<input type="radio" name="q2" value="0"> Une copie complète du dépôt<br>
+<input type="radio" name="q2" value="1"> Une ligne de développement indépendante<br>
+<input type="radio" name="q2" value="0"> Un simple dossier<br>
+<input type="radio" name="q2" value="0"> Un commit spécial
+</div>
+
+<div class="question">
+<p>3. Qu’est-ce qu’un commit Git ?</p>
+<input type="radio" name="q3" value="0"> Une modification temporaire<br>
+<input type="radio" name="q3" value="1"> Une sauvegarde de l’état du projet<br>
+<input type="radio" name="q3" value="0"> Une branche distante<br>
+<input type="radio" name="q3" value="0"> Un dépôt GitHub
+</div>
+
+<div class="question">
+<p>4. Que fait la commande git merge ?</p>
+<input type="radio" name="q4" value="0"> Supprime une branche<br>
+<input type="radio" name="q4" value="1"> Intègre une branche dans une autre<br>
+<input type="radio" name="q4" value="0"> Renomme une branche<br>
+<input type="radio" name="q4" value="0"> Annule un commit
+</div>
+
+<div class="question">
+<p>5. Que représente HEAD dans Git ?</p>
+<input type="radio" name="q5" value="0"> Le premier commit<br>
+<input type="radio" name="q5" value="1"> Le commit parent du prochain commit<br>
+<input type="radio" name="q5" value="0"> Le dépôt distant<br>
+<input type="radio" name="q5" value="0"> Un tag GitHub
+</div>
+
+<button type="button" onclick="corriger()">Corriger</button>
+</form>
+
+<div class="result" id="resultat"></div>
+
+<script>
+function corriger() {
+  let score = 0;
+  document.querySelectorAll('input[type=radio]:checked').forEach(r => {
+    score += Number(r.value);
+  });
+  document.getElementById("resultat").innerHTML =
+    "Score : " + score + " / 5";
+}
+</script>
+
+</body>
+</html>
