@@ -4,7 +4,7 @@ const bonnesReponses = {
     11: "B", 12: ["A", "B", "D"], 13: "C", 14: "A", 15: ["A", "B", "D"],
     16: "C", 17: "B", 18: ["B", "C"], 19: "A", 20: "C",
     21: ["A", "B", "C"], 22: "B", 23: "B", 24: ["B", "D"], 25: "A",
-    26: "C", 27: ["A", "B", "C"], 28: "A", 29: "B", 30: ["A", "B", "C"]
+    26: "C", 27: ["A", "B", "C"], 28: "A", 29: "B", 30: "C"
 };
 
 // --- ALGORITHME DE FISHER-YATES ---
@@ -76,29 +76,14 @@ function corrigerQCM() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// --- LOGIQUE DE REINITIALISATION ---
+// --- LOGIQUE DE REINITIALISATION (RECHARGEMENT PAGE) ---
 function resetQCM() {
-    document.querySelectorAll("input").forEach(i => {
-        i.checked = false;
-        i.disabled = false;
-    });
-    document.querySelectorAll(".qcm-question").forEach(q => {
-        q.style.borderLeft = "none";
-        const panel = q.querySelector(".correction-panel");
-        if (panel) panel.style.display = "none";
-    });
-    document.querySelectorAll(".nav-question").forEach(btn => {
-        btn.classList.remove("good", "bad", "missing");
-    });
-    const sb = document.getElementById("score-result");
-    if (sb) sb.textContent = "Score : — / 30";
-    
-    algorithmeDeFisherYates(); // On remélange pour une nouvelle tentative
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    location.reload(); // Équivaut à appuyer sur F5
 }
 
 // --- INITIALISATION ---
 document.addEventListener("DOMContentLoaded", () => {
+    // Mélange automatique au chargement (ou après un reload)
     algorithmeDeFisherYates();
     
     const btnV = document.getElementById("validate-qcm");
@@ -107,10 +92,5 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnR = document.getElementById("reset-qcm");
     if (btnR) btnR.onclick = resetQCM;
 
-    document.querySelectorAll(".nav-question").forEach(btn => {
-        btn.onclick = () => {
-            const t = document.getElementById(`question-${btn.dataset.target}`);
-            if (t) t.scrollIntoView({ behavior: "smooth", block: "center" });
-        };
-    });
+    // ... reste de votre code de navigation ...
 });
