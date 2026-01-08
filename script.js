@@ -14,40 +14,42 @@ function mélangerEtRéindexer() {
         if (!container) return;
 
         const labels = Array.from(container.querySelectorAll("label"));
-        const lettres = ["A.", "B.", "C.", "D."];
+        const lettresOrdre = ["A.", "B.", "C.", "D."];
 
-        // 1. Extraire les textes sans les lettres accumulées
-        const textesNettoyés = labels.map(label => {
-            let texte = label.innerText;
-            // On retire tout ce qui ressemble à "A. ", "B. " etc au début, même répété
-            return texte.replace(/^([A-D]\.\s*)+/gi, "").trim();
+        // 1. On extrait le texte pur en supprimant TOUTES les lettres au début (A. B. C. ou D.)
+        const textesVierges = labels.map(label => {
+            let texteBrut = label.innerText;
+            // Cette regex retire TOUTES les lettres majuscules suivies d'un point au début
+            // Même s'il y en a plusieurs comme "A. C. "
+            return texteBrut.replace(/^([A-Z]\.\s*)+/gi, "").trim();
         });
 
-        // 2. Mélange (Fisher-Yates)
-        for (let i = textesNettoyés.length - 1; i > 0; i--) {
+        // 2. On mélange les textes vierges
+        for (let i = textesVierges.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
-            [textesNettoyés[i], textesNettoyés[j]] = [textesNettoyés[j], textesNettoyés[i]];
+            [textesVierges[i], textesVierges[j]] = [textesVierges[j], textesVierges[i]];
         }
 
-        // 3. Ré-injection propre
+        // 3. On reconstruit les labels proprement
         labels.forEach((label, index) => {
             const input = label.querySelector("input");
-            label.innerHTML = ""; 
-            label.appendChild(input); 
-            const nouveauTexte = document.createTextNode(` ${lettres[index]} ${textesNettoyés[index]}`);
+            label.innerHTML = ""; // On vide tout
+            label.appendChild(input); // On remet la case à cocher
+            
+            // On ajoute UNE SEULE lettre propre suivie du texte
+            const nouveauTexte = document.createTextNode(` ${lettresOrdre[index]} ${textesVierges[index]}`);
             label.appendChild(nouveauTexte);
         });
     });
 }
 
-// --- CORRECTION (AVEC AFFICHAGE EXPLICATION) ---
+// --- CORRECTION (SANS SUPPRESSION) ---
 function corrigerQCM() {
     let scoreTotal = 0;
     document.querySelectorAll(".qcm-question").forEach(q => {
         const id = q.dataset.question;
         const type = q.dataset.type;
         const attendu = bonnesReponses[id];
-        const navBtn = document.querySelector(`.nav-question[data-target="${id}"]`);
         const cochés = Array.from(q.querySelectorAll(`input:checked`)).map(i => i.value);
 
         let pts = 0;
@@ -61,21 +63,15 @@ function corrigerQCM() {
             }
         }
 
-        // --- FEEDBACK VISUEL ---
+        // Visuel
         q.style.border = pts === 1 ? "3px solid #00ff80" : (pts > 0 ? "3px solid #ffb300" : "3px solid #ff5252");
         if (cochés.length === 0) q.style.border = "3px solid orange";
 
-        // Mise à jour Sidebar
-        navBtn?.classList.remove("good", "bad", "missing");
-        if (cochés.length === 0) navBtn?.classList.add("missing");
-        else navBtn?.classList.add(pts === 1 ? "good" : (pts > 0 ? "missing" : "bad"));
-        
-        // --- AFFICHAGE DE L'EXPLICATION ---
+        // Affichage explication
         const panel = q.querySelector(".correction-panel");
         if (panel) {
             panel.style.display = "block";
             panel.style.opacity = "1";
-            panel.style.transform = "translateY(0)";
         }
 
         q.querySelectorAll("input").forEach(i => i.disabled = true);
@@ -96,39 +92,24 @@ function resetQCM() {
 
     document.querySelectorAll(".qcm-question").forEach(q => {
         q.style.border = "2px solid transparent";
-        // On cache à nouveau l'explication
         const p = q.querySelector(".correction-panel");
-        if (p) {
-            p.style.display = "none";
-            p.style.opacity = "0";
-        }
+        if (p) p.style.display = "none";
     });
 
-    document.querySelectorAll(".nav-question").forEach(b => b.classList.remove("good", "bad", "missing"));
-    
-    // On mélange à nouveau pour la prochaine tentative
+    // C'est ici que le nettoyage se fait avant de re-mélanger
     mélangerEtRéindexer();
-    
+
     const sb = document.getElementById("score-result");
     if (sb) sb.textContent = "Score : -- / 30";
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// --- INITIALISATION ---
+// --- INIT ---
 document.addEventListener("DOMContentLoaded", () => {
     mélangerEtRéindexer();
     
     const btnV = document.getElementById("validate-btn");
     const btnR = document.getElementById("reset-btn");
-    
     if (btnV) btnV.onclick = corrigerQCM;
     if (btnR) btnR.onclick = resetQCM;
-
-    // Navigation sidebar
-    document.querySelectorAll(".nav-question").forEach(btn => {
-        btn.onclick = () => {
-            const t = document.getElementById(`question-${btn.dataset.target}`);
-            if (t) t.scrollIntoView({ behavior: "smooth", block: "center" });
-        };
-    });
 });
