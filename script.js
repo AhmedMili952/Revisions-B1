@@ -32,11 +32,10 @@ function corrigerQCM() {
             navBtn?.classList.add("missing");
         } else {
             let estCorrect = false;
-
             if (type === "single") {
                 estCorrect = reponsesUser[0] === attendu;
             } else {
-                // CORRECTION ICI : On trie les deux tableaux pour être sûr que l'ordre ne bloque pas
+                // Comparaison robuste pour les choix multiples
                 const trieUser = [...reponsesUser].sort().join(",");
                 const trieAttendu = Array.isArray(attendu) ? [...attendu].sort().join(",") : attendu;
                 estCorrect = trieUser === trieAttendu;
@@ -69,12 +68,41 @@ function corrigerQCM() {
 }
 
 // ===============================
-//   Reset et Navigation
+//   Reset (Version Ultra-Nettoyage)
 // ===============================
 function resetQCM() {
-    window.location.reload(); // Méthode la plus propre pour tout réinitialiser
+    // 1. Décocher TOUS les boutons et cases
+    document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(input => {
+        input.checked = false;
+        input.disabled = false;
+    });
+
+    // 2. Masquer les corrections et remettre les bordures à zéro
+    document.querySelectorAll(".correction-panel").forEach(panel => {
+        panel.style.display = "none";
+        panel.style.opacity = "0";
+    });
+
+    document.querySelectorAll(".qcm-question").forEach(q => {
+        q.style.border = "2px solid transparent";
+    });
+
+    // 3. Reset Sidebar
+    document.querySelectorAll(".nav-question").forEach(btn => {
+        btn.classList.remove("good", "bad", "missing");
+    });
+
+    // 4. Reset Score
+    const scoreBox = document.getElementById("score-result");
+    if (scoreBox) scoreBox.textContent = "Score : -- / 30";
+
+    // 5. Scroll en haut
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+// ===============================
+//   Navigation et Menu
+// ===============================
 function initSidebarNavigation() {
     document.querySelectorAll(".nav-question").forEach(btn => {
         btn.addEventListener("click", () => {
