@@ -12,111 +12,77 @@ function algorithmeDeFisherYates() {
     document.querySelectorAll(".qcm-question").forEach(q => {
         const container = q.querySelector(".qcm-options");
         if (!container) return;
+
         const labels = Array.from(container.querySelectorAll("label"));
         const lettresOrdre = ["A", "B", "C", "D"];
 
+        // 1. Melange des elements (Fisher-Yates)
         for (let i = labels.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [labels[i], labels[j]] = [labels[j], labels[i]];
         }
 
+        // 2. Reconstruction propre du HTML
         container.innerHTML = "";
         labels.forEach((label, index) => {
             const input = label.querySelector("input");
+            
+            // On extrait le texte en supprimant TOUTES les anciennes lettres/points au debut
             let texteBrut = label.innerText.replace(/^([A-Z][\.\s]*)+/i, "").trim();
-            label.innerHTML = "";
-            label.appendChild(input);
+            
+            label.innerHTML = ""; // On vide le label
+            label.appendChild(input); // On remet le bouton radio/checkbox
+            
+            // On ajoute la lettre fixe (A, B, C ou D) selon la nouvelle position
             label.appendChild(document.createTextNode(` ${lettresOrdre[index]}. ${texteBrut}`));
             container.appendChild(label);
         });
     });
 }
 
-// --- LOGIQUE DE CORRECTION ---
-function corrigerQCM() {
-    let scoreTotal = 0;
-    document.querySelectorAll(".qcm-question").forEach(q => {
-        const id = q.dataset.question;
-        const type = q.dataset.type;
-        const attendu = bonnesReponses[id];
-        const navBtn = document.querySelector(`.nav-question[data-target="${id}"]`);
-        
-        const labels = Array.from(q.querySelectorAll(".qcm-options label"));
-        const coches = [];
-        labels.forEach((label, index) => {
-            if (label.querySelector("input").checked) {
-                coches.push(["A", "B", "C", "D"][index]);
-            }
-        });
-
-        let pts = 0;
-        if (coches.length > 0) {
-            if (type === "single") {
-                if (coches[0] === attendu) pts = 1;
-            } else {
-                let trouves = 0, erreurs = 0;
-                coches.forEach(v => attendu.includes(v) ? trouves++ : erreurs++);
-                pts = (erreurs === 0) ? (trouves / attendu.length) : 0;
-            }
-        }
-
-        q.style.borderLeft = pts === 1 ? "8px solid #00ff80" : (pts > 0 ? "8px solid #ffb300" : "8px solid #ff5252");
-        if (navBtn) {
-            navBtn.classList.remove("good", "bad", "missing");
-            navBtn.classList.add(pts === 1 ? "good" : (pts > 0 ? "missing" : "bad"));
-        }
-        const panel = q.querySelector(".correction-panel");
-        if (panel) panel.style.display = "block";
-        q.querySelectorAll("input").forEach(i => i.disabled = true);
-        scoreTotal += pts;
-    });
-
-    const sb = document.getElementById("score-result");
-    if (sb) sb.textContent = `Score : ${scoreTotal.toFixed(1)} / 30`;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// --- LOGIQUE DE REINITIALISATION ---
-// --- ANCIENNE LOGIQUE DE REINITIALISATION (SANS RECHARGEMENT) ---
+// --- LOGIQUE DE REINITIALISATION SANS DOUBLONS ---
 function resetQCM() {
-    // 1. Decocher tous les boutons radio et cases a cocher
+    // 1. Decocher et reactiver les boutons
     document.querySelectorAll("input").forEach(i => {
         i.checked = false;
         i.disabled = false;
     });
 
-    // 2. Reinitialiser l'apparence des questions et masquer la correction
+    // 2. Nettoyer les styles et masquer les corrections
     document.querySelectorAll(".qcm-question").forEach(q => {
         q.style.borderLeft = "none";
         const panel = q.querySelector(".correction-panel");
         if (panel) panel.style.display = "none";
     });
 
-    // 3. Nettoyer les indicateurs de couleur dans la barre latérale
+    // 3. Reset Sidebar et Score
     document.querySelectorAll(".nav-question").forEach(btn => {
         btn.classList.remove("good", "bad", "missing");
     });
-
-    // 4. Remettre le score a zero
     const sb = document.getElementById("score-result");
     if (sb) sb.textContent = "Score : — / 30";
     
-    // 5. Relancer le melange pour changer l'ordre des reponses
+    // 4. Relancer le melange (Fisher-Yates s'occupera du nettoyage des lettres)
     algorithmeDeFisherYates(); 
 
-    // 6. Remonter en haut de page pour recommencer
+    // 5. Retour fluide en haut
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
 // --- INITIALISATION ---
 document.addEventListener("DOMContentLoaded", () => {
-    // Mélange automatique au chargement (ou après un reload)
     algorithmeDeFisherYates();
     
     const btnV = document.getElementById("validate-qcm");
-    if (btnV) btnV.onclick = corrigerQCM;
+    if (btnV) btnV.onclick = corrigerQCM; // Utilisez votre fonction corrigerQCM existante
 
     const btnR = document.getElementById("reset-qcm");
     if (btnR) btnR.onclick = resetQCM;
 
-    // ... reste de votre code de navigation ...
+    document.querySelectorAll(".nav-question").forEach(btn => {
+        btn.onclick = () => {
+            const t = document.getElementById(`question-${btn.dataset.target}`);
+            if (t) t.scrollIntoView({ behavior: "smooth", block: "center" });
+        };
+    });
 });
