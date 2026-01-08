@@ -1,5 +1,5 @@
 // ==========================================
-//   Bonnes réponses du QCM (Niveau Expert)
+//    Bonnes réponses du QCM (Niveau Expert)
 // ==========================================
 const bonnesReponses = {
     1: "B", 2: ["A", "B"], 3: "C", 4: ["B", "D"], 5: "B",
@@ -11,11 +11,11 @@ const bonnesReponses = {
 };
 
 // ===============================
-//   Fonction de validation
+//    Fonction de validation
 // ===============================
 function corrigerQCM() {
     const questions = document.querySelectorAll(".qcm-question");
-    let score = 0;
+    let scoreTotal = 0;
 
     questions.forEach(q => {
         const id = q.dataset.question;
@@ -27,30 +27,58 @@ function corrigerQCM() {
         const inputsChecked = Array.from(q.querySelectorAll(`input[name="q${id}"]:checked`));
         const reponsesUser = inputsChecked.map(input => input.value);
 
+        let pointsQuestion = 0;
+
         if (reponsesUser.length === 0) {
             if (block) block.style.border = "3px solid orange";
             navBtn?.classList.add("missing");
         } else {
-            let estCorrect = false;
             if (type === "single") {
-                estCorrect = reponsesUser[0] === attendu;
+                // Choix unique : 1 pt ou 0 pt
+                if (reponsesUser[0] === attendu) {
+                    pointsQuestion = 1;
+                }
             } else {
-                // Comparaison robuste pour les choix multiples
-                const trieUser = [...reponsesUser].sort().join(",");
-                const trieAttendu = Array.isArray(attendu) ? [...attendu].sort().join(",") : attendu;
-                estCorrect = trieUser === trieAttendu;
+                // Choix multiple : Points partiels
+                const nbBonnesTotal = attendu.length;
+                let bonnesTrouvees = 0;
+                let erreurs = 0;
+
+                reponsesUser.forEach(val => {
+                    if (attendu.includes(val)) {
+                        bonnesTrouvees++;
+                    } else {
+                        erreurs++;
+                    }
+                });
+
+                // Règle : Si aucune erreur, on donne le prorata. Si une erreur, 0 point.
+                if (erreurs === 0) {
+                    pointsQuestion = bonnesTrouvees / nbBonnesTotal;
+                } else {
+                    pointsQuestion = 0;
+                }
             }
 
-            if (estCorrect) {
-                score++;
+            // --- GESTION VISUELLE ---
+            if (pointsQuestion === 1) {
+                // Tout bon
                 if (block) block.style.border = "3px solid #00ff80";
                 navBtn?.classList.add("good");
+            } else if (pointsQuestion > 0) {
+                // Partiel (Orange)
+                if (block) block.style.border = "3px solid #ffb300";
+                navBtn?.classList.add("missing");
             } else {
+                // Faux (Rouge)
                 if (block) block.style.border = "3px solid #ff5252";
                 navBtn?.classList.add("bad");
             }
         }
 
+        scoreTotal += pointsQuestion;
+
+        // Affichage du panneau de correction
         const panel = q.querySelector(".correction-panel");
         if (panel) {
             panel.style.display = "block";
@@ -60,24 +88,29 @@ function corrigerQCM() {
         }
     });
 
+    // Mise à jour du score avec un seul chiffre après la virgule
     const scoreBox = document.getElementById("score-result");
-    if (scoreBox) scoreBox.textContent = `Score : ${score} / 30`;
-    
+    if (scoreBox) {
+        scoreBox.textContent = `Score : ${scoreTotal.toFixed(1)} / 30`;
+        scoreBox.classList.remove("score-bump");
+        void scoreBox.offsetWidth; // Reset animation
+        scoreBox.classList.add("score-bump");
+    }
+
+    // Désactivation et scroll
     document.querySelectorAll("input").forEach(i => i.disabled = true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // ===============================
-//   Reset (Version Ultra-Nettoyage)
+//    Reset (Version Nettoyage)
 // ===============================
 function resetQCM() {
-    // 1. Décocher TOUS les boutons et cases
-    document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(input => {
+    document.querySelectorAll('input').forEach(input => {
         input.checked = false;
         input.disabled = false;
     });
 
-    // 2. Masquer les corrections et remettre les bordures à zéro
     document.querySelectorAll(".correction-panel").forEach(panel => {
         panel.style.display = "none";
         panel.style.opacity = "0";
@@ -87,21 +120,18 @@ function resetQCM() {
         q.style.border = "2px solid transparent";
     });
 
-    // 3. Reset Sidebar
     document.querySelectorAll(".nav-question").forEach(btn => {
         btn.classList.remove("good", "bad", "missing");
     });
 
-    // 4. Reset Score
     const scoreBox = document.getElementById("score-result");
     if (scoreBox) scoreBox.textContent = "Score : -- / 30";
 
-    // 5. Scroll en haut
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // ===============================
-//   Navigation et Menu
+//    Navigation et Initialisation
 // ===============================
 function initSidebarNavigation() {
     document.querySelectorAll(".nav-question").forEach(btn => {
