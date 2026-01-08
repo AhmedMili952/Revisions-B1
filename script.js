@@ -13,6 +13,44 @@ const bonnesReponses = {
 const LETTRES = ["A", "B", "C", "D"];
 
 /* ===========================================================
+   SÉCURITÉ : BLOCAGE DES OUTILS D'INSPECTION
+   =========================================================== */
+
+// 1. Bloquer le clic droit (empêche l'accès au menu "Inspecter")
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+
+// 2. Bloquer les raccourcis clavier stratégiques
+document.addEventListener('keydown', function(e) {
+    
+    // Bloque F12 (Ouverture des outils développeur)
+    if (e.key === "F12") {
+        e.preventDefault();
+    }
+
+    // Bloque Ctrl + U (Afficher le code source de la page)
+    if (e.ctrlKey && e.key === "u") {
+        e.preventDefault();
+    }
+
+    // Bloque Ctrl + Shift + I (Ouvrir l'inspecteur d'éléments)
+    if (e.ctrlKey && e.shiftKey && e.key === "I") {
+        e.preventDefault();
+    }
+
+    // Bloque Ctrl + Shift + J (Ouvrir la console)
+    if (e.ctrlKey && e.shiftKey && e.key === "J") {
+        e.preventDefault();
+    }
+
+    // Bloque Ctrl + S (Empêche d'enregistrer la page sur l'ordinateur)
+    if (e.ctrlKey && e.key === "s") {
+        e.preventDefault();
+    }
+});
+
+/* ===========================================================
    FONCTIONS DE MÉLANGE (UI)
    =========================================================== */
 function algorithmeDeFisherYates() {
