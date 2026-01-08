@@ -76,11 +76,37 @@ function corrigerQCM() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// --- LOGIQUE DE REINITIALISATION (RECHARGEMENT PAGE) ---
+// --- LOGIQUE DE REINITIALISATION ---
+// --- ANCIENNE LOGIQUE DE REINITIALISATION (SANS RECHARGEMENT) ---
 function resetQCM() {
-    location.reload(); // Équivaut à appuyer sur F5
-}
+    // 1. Decocher tous les boutons radio et cases a cocher
+    document.querySelectorAll("input").forEach(i => {
+        i.checked = false;
+        i.disabled = false;
+    });
 
+    // 2. Reinitialiser l'apparence des questions et masquer la correction
+    document.querySelectorAll(".qcm-question").forEach(q => {
+        q.style.borderLeft = "none";
+        const panel = q.querySelector(".correction-panel");
+        if (panel) panel.style.display = "none";
+    });
+
+    // 3. Nettoyer les indicateurs de couleur dans la barre latérale
+    document.querySelectorAll(".nav-question").forEach(btn => {
+        btn.classList.remove("good", "bad", "missing");
+    });
+
+    // 4. Remettre le score a zero
+    const sb = document.getElementById("score-result");
+    if (sb) sb.textContent = "Score : — / 30";
+    
+    // 5. Relancer le melange pour changer l'ordre des reponses
+    algorithmeDeFisherYates(); 
+
+    // 6. Remonter en haut de page pour recommencer
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 // --- INITIALISATION ---
 document.addEventListener("DOMContentLoaded", () => {
     // Mélange automatique au chargement (ou après un reload)
