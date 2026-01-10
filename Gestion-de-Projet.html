@@ -33,22 +33,24 @@
             font-size: 0.9em;
             color: #d4ffea;
         }
+        /* Style pour mettre en valeur le score dans la sidebar */
+        .sidebar-score {
+            padding: 20px;
+            text-align: center;
+            background: rgba(0, 212, 255, 0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--accent);
+        }
     </style>
 </head>
 <body>
-    
-
-<div class="top-bar">
-    <div class="top-bar-content">
-        <span class="exam-title">QCM – Gestion de projet, Cyber & RSE</span>
-        <div id="score-result" class="score-pill">Score : — / 34</div>
-    </div>
-</div>
 
 <div class="layout">
     <aside class="sidebar">
-        <div class="score-result">
-            <div id="sidebar-score">-- / 34</div>
+        <div class="sidebar-score">
+            <div id="score-result">Score : — / 34</div>
         </div>
         <nav class="sidebar-list">
             <script>for(let i=1; i<=34; i++) { document.write(`<button class="nav-question" data-target="${i}">Q${i}</button>`); }</script>
