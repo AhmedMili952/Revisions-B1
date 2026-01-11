@@ -1,8 +1,39 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <!-- META SECURITY HEADERS -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+
+ <!-- CONTENT SECURITY POLICY - CRITIQUE -->
+    <meta http-equiv="Content-Security-Policy" 
+          content="
+        default-src 'self';
+        script-src 'self' 'unsafe-inline';
+        style-src 'self' 'unsafe-inline';
+        img-src 'self' data:;
+        font-src 'self' data:;
+        connect-src 'self';
+        frame-ancestors 'none';
+        base-uri 'self';
+        form-action 'self';
+        object-src 'none';
+        sandbox allow-scripts allow-same-origin allow-forms
+    ">
+
+    <!-- FEATURE POLICY & OTHERS -->
+    <meta http-equiv="Feature-Policy" content="vibrate 'none'; payment 'none'">
+    
+
+
+
+
+
     <title>QCM – Gestion de projet, Cyber & RSE</title>
     <link rel="stylesheet" href="QCM.css" />
     <style>
@@ -62,6 +93,10 @@
 
         <section>
             <h2>Gestion de projet</h2>
+
+            <div>div</div><div>div</div>
+            <span>span</span><span>span</span>
+
 
             <div class="qcm-question" id="question-1" data-question="1" data-type="text">
                 <p><b>1. Quel est le triangle d’or de la gestion de projet ?</b></p>
