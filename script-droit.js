@@ -33,7 +33,17 @@ const bonnesReponses = {
     27: "À l'employeur",
     28: "À caractère personnel",
     29: "CNIL",
-    30: "L'accès à distance à un logiciel hébergé via un abonnement"
+    30: "L'accès à distance à un logiciel hébergé via un abonnement",
+    31: "L'équivalence fonctionnelle",
+    32: "Le DASHsquatting",
+    33: "Au prestataire (le créateur)",
+    34: "Un numéro de téléphone",
+    35: "Faux, elle gère uniquement les marques et dessins/modèles",
+    36: "Une obligation de moyen",
+    37: "La classe 9",
+    38: "L'Enveloppe SOLEAU",
+    39: "La SACEM",
+    40: "La neutralité technologique"
 };
 
 function mélangerTout() {
